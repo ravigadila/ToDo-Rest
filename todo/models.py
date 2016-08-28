@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.core.urlresolvers import reverse
 from django.utils.encoding import python_2_unicode_compatible
@@ -12,7 +12,6 @@ from django.utils.encoding import python_2_unicode_compatible
 class List(models.Model):
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=60, editable=False)
-    group = models.ForeignKey(Group)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -30,9 +29,6 @@ class List(models.Model):
     class Meta:
         ordering = ["name"]
         verbose_name_plural = "Lists"
-
-        # Prevents (at the database level) creation of two lists with the same name in the same group
-        unique_together = ("group", "slug")
 
 
 @python_2_unicode_compatible
