@@ -12,6 +12,7 @@ from django.utils.encoding import python_2_unicode_compatible
 class List(models.Model):
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=60, editable=False)
+    owner = models.ForeignKey(User)
 
     def save(self, *args, **kwargs):
         if not self.id:

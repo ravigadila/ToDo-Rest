@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'todo'
+    'rest_framework',
+    'rest_framework.authtoken',
+    'todo',
+    'api',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -124,7 +127,14 @@ STATIC_URL = '/static/'
 SITE_ID = 1
 
 
-STAFF_ONLY = False
-DEFAULT_LIST_ID = 1
-DEFAULT_ASSIGNEE = None
-PUBLIC_SUBMIT_REDIRECT = '/'
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.permissions.IsAuthenticated'
+    ),
+    'PAGE_SIZE': 10
+}
+
