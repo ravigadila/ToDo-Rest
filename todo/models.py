@@ -38,7 +38,7 @@ class Item(models.Model):
     list = models.ForeignKey(List)
     created_date = models.DateField(auto_now=True)
     due_date = models.DateField(blank=True, null=True, )
-    completed = models.BooleanField(default=None)
+    completed = models.BooleanField(default=False)
     completed_date = models.DateField(blank=True, null=True)
     created_by = models.ForeignKey(User, related_name='todo_created_by')
     assigned_to = models.ForeignKey(User, blank=True, null=True, related_name='todo_assigned_to')
@@ -58,7 +58,7 @@ class Item(models.Model):
         return reverse('todo-task_detail', kwargs={'task_id': self.id, })
 
     # Auto-set the item creation / completed date
-    def save(self):
+    def save(self, force_insert=False, force_update=False, using=None):
         # If Item is being marked complete, set the completed_date
         if self.completed:
             self.completed_date = datetime.datetime.now()
